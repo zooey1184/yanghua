@@ -1,9 +1,12 @@
-
+// 1.s1=拼接成字符串（和原来一样） a=xx&b=xx&ada768787%^&
+// 2.s2=s1转成大写（新增）
+// 3.s3=s2使用URLEncode进行编码，转成utf8格式（新增）
+// 4.sign=md5(s3) （和原来一样）
 
 export default function() {
   let o = window.location.origin
   let slag = 'api'
-  
+
   let path = {
     harvest: `${o}/${api}/energy/harvest`,                  // 能量收取      post [uid, energyId, userPlantId]
     flowerpot_list: `${o}/${api}/flowerpot/list`,           // 花瓶列表      get

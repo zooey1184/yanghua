@@ -1,20 +1,37 @@
 <template lang="html">
 <div class="">
   <page>
-    <bg></bg>
+    <div>
+      <!-- <bg></bg> -->
+      <div class="sun_wrap">
+        <energy :state='false' point="dsd" :times="36302"></energy>
+      </div>
+
+    </div>
   </page>
-  <!-- <modal-pane></modal-pane> -->
+  <modal :showModal="showModal">
+    <div class="">
+      hello
+    </div>
+  </modal>
 </div>
 </template>
 
 <script>
 export default {
   components: {
-    page: ()=> import ('@/components/PageWrap/PageWrap.vue'),
     bg: ()=> import ('@/components/bgPane.vue'),
-  }
+    modal: ()=> import ('@/components/modal.vue'),
+    energy: ()=> import ('@/components/energy.vue')
+  },
+  data: ()=> ({
+    showModal: false
+  })
 }
 </script>
 
 <style lang="less">
+.sun_wrap {
+  animation: linearUP 2s linear infinite;
+}
 </style>

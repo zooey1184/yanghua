@@ -5,7 +5,13 @@ import App from './App'
 import router from './router'
 
 Vue.config.productionTip = false
-
+// plugin here
+import vxajax from 'vxajax'
+Vue.use(vxajax)
+import Toast from '@/plugin/tip/tip.js'
+Vue.use(Toast)
+import PageWrap from '@/components/PageWrap/PageWrap.vue'
+Vue.component('page', PageWrap)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
