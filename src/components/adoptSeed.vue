@@ -1,7 +1,9 @@
 <template lang="html">
   <div class="adopt_seed_wrap">
     <p class="title">{{title}}</p>
-    <img class="pic" src="//p8jtbvrrf.bkt.clouddn.com/pic_wenhao.png" alt="">
+    <img class="pic" v-if="showId===0" src="//p8jtbvrrf.bkt.clouddn.com/pic_wenhao.png" alt="">
+    <img class="pic" v-if="showId===1" src="//p8jtbvrrf.bkt.clouddn.com/pic_xiangrikui.png" alt="">
+    <img class="pic" v-if="showId===2" src="//p8jtbvrrf.bkt.clouddn.com/pic_xianrenzhang.png" alt="">
     <div class="group">
       <div class="item">
         <p>需要种子</p>
@@ -24,7 +26,7 @@
 <script>
 export default {
   data:()=> ({
-    m: [[]]
+    showId: 0,      // 0：问号， 1：向日葵， 2：仙人掌
   }),
   props: {
     title: String,
@@ -32,6 +34,27 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  watch: {
+    haved: function(n, o) {
+      this.exchange()
+    }
+  },
+  methods: {
+    exchange() {
+      if(this.haved) {
+        if(this.title.match(/向日葵/g)) {
+          this.showId = 1
+        }else {
+          this.showId =2
+        }
+      }else {
+        this.showId = 0
+      }
+    }
+  },
+  mounted() {
+    this.exchange()
   }
 }
 </script>

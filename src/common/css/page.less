@@ -1,100 +1,48 @@
-// @import "../common/js.less";
-// vue.js 动画
-//
-/*页面切换中动画*/
-// 默认
-.page-forward-enter-active,
-.page-back-enter-active,
-.page-forward-leave-active,
-.page-back-leave-active
-{
-  // .transition(all 0.4s ease);
-  transition: all 0.4s ease;
+
+// router-     // 前缀
+// forward     // 前进
+// backward    // 后退
+// fade        // 渐变
+
+.router-backward-enter-active,
+.router-forward-enter-active,
+.router-backward-leave-active,
+.router-forward-leave-active {
+  will-change: transform;
+  transition: all 500ms ease-out;
+  height: 100%;
+  width: 100%;
   position: absolute;
+  backface-visibility: hidden;
 }
 
-.page-forward-enter,
-.page-back-leave-active
-{
-  // .transform(translate(100%));
-  transform: translate(100%);
-}
-.page-forward-leave-active,
-.page-back-enter {
-  // .transform(translate(-100%));
-  transform: translate(-100%);
+.router-backward-enter {
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0);
 }
 
+.router-backward-leave-active {
+  opacity: 0.5;
+  z-index: 2;
+  transform: translate3d(100%, 0, 0);
+}
 
-.sildeDown-forward-enter-active,
-.sildeDown-back-leave-active
-{
- z-index: 2;
- // .transition(all 0.4s ease);
- transition: all 0.4s ease;
+.router-forward-enter {
+  opacity: 1;
+  transform: translate3d(100%, 0, 0);
 }
-.sildeDown-back-leave-active{
-  z-index: 3;
+
+.router-forward-leave-active {
+  opacity: 0.5;
+  transform: translate3d(-50%, 0, 0);
 }
-.sildeDown-forward-leave-active,
-.sildeDown-back-leave-active{
-  // .transition(all 0.35s ease);
-  transition: all 0.4s ease;
+
+.router-fade-enter-active {
+  transition: all 0.4s linear;
 }
-.sildeDown-forward-enter-active,
-.sildeDown-back-enter-active,
-.sildeDown-forward-leave-active,
-.sildeDown-back-leave-active
-{
-  position: absolute;
+.router-fade-leave-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-// .sildeDown-forward-enter,
-// .sildeDown-back-leave-active
-// {
-//   .transform(translateY(-100%));
-// }
-//
-//
-// .sildeUp-forward-enter-active,
-// .sildeUp-back-leave-active
-// {
-//  z-index: 2;
-//  .transition(all 0.4s ease);
-// }
-// .sildeUp-back-leave-active{
-//   z-index: 3;
-// }
-// .sildeUp-forward-leave-active,
-// .sildeUp-back-leave-active{
-//   .transition(all 0.35s ease);
-// }
-// .sildeUp-forward-enter-active,
-// .sildeUp-back-enter-active,
-// .sildeUp-forward-leave-active,
-// .sildeUp-back-leave-active
-// {
-//   position: absolute;
-// }
-// .sildeUp-forward-enter,
-// .sildeUp-back-leave-active
-// {
-//   .transform(translateY(100%));
-// }
-//
-// .silde-enter-active,
-// .silde-leave-active
-// {
-//   .transition(all 1s);
-// }
-// .silde-enter{
-//   max-height:0
-// }
-// .silde-enter-to{
-//   max-height:1.5rem;
-// }
-// .silde-leave{
-//   max-height:1.5rem;
-// }
-// .silde-leave-to{
-//  max-height:0
-// }
+.router-fade-enter, .router-fade-leave-to {
+  opacity: 0;
+}

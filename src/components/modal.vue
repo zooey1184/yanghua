@@ -77,7 +77,7 @@ export default {
 }
 /*淡入淡出*/
 .fade-enter-active, .fade-leave-active {
-  transition: all .35s ease;
+  transition: all .3s ease;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;

@@ -53,11 +53,17 @@
 }
 /*slide-toggle*/
 .slide-enter-active, .slide-leave-active {
-  transition: all 0.5s linear;
+  transition: all 0.4s linear;
 }
 .slide-enter, .slide-leave-to {
   transform: translateY(100%);
   opacity: 0;
+}
+.slideHalf-enter-active, .slideHalf-leave-active {
+  transition: all 0.35s ease-out;
+}
+.slideHalf-enter, .slideHalf-leave-to {
+  transform: translateY(100px);
 }
 /*scale-toggle*/
 .scale-enter-active, .scale-leave-active {

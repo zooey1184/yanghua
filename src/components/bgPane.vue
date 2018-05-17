@@ -8,23 +8,12 @@
 
 <script>
 export default {
-  data: ()=> ({
-    day: 'day',
-  }),
-  methods: {
-    getDay() {
-      let d = new Date()
-      let t = d.getHours()
-      if(t>5 && t<18) {
-        this.day = 'day'
-      }else {
-        this.day = 'night'
-      }
-    }
+  props: {
+    day: {
+      type: String,
+      default: 'day'
+    },
   },
-  created() {
-    this.getDay()
-  }
 }
 </script>
 

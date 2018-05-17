@@ -2,30 +2,37 @@
 <div class="">
   <page title="领养">
     <div>
-      <bg></bg>
-      <!-- seed -->
-      <div class="seed_pane">
+      <!-- <bg></bg> -->
+      <!-- <div class="seed_pane">
         <img src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
         <p>{{count_seed}}</p>
-      </div>
+      </div> -->
 
-      <div class="swiper_container">
+      <!-- <div class="swiper_container" ref="swiper">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <seed title="仙人掌"></seed>
+            <seed title="向日葵" :haved="true"></seed>
+          </div>
+          <div class="swiper-slide">
+            <seed title="仙人掌" :haved="true"></seed>
+          </div>
+          <div class="swiper-slide">
+            <seed title="向日葵"></seed>
           </div>
         </div>
       </div>
-
+      <div class="next_pane">
+        <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" @click="nextFn" v-if="plant_active<plantList.length-1" alt="">
+      </div> -->
       <div class="flower_wrap">
-        <img src="//p8jtbvrrf.bkt.clouddn.com/xrk_l_a.gif" alt="">
+        <!-- <img src="//p8jtbvrrf.bkt.clouddn.com/xrk_l_a.gif" alt=""> -->
         <div class="click_change" @click="showFlowerPot">
           <p>点击更换花瓶</p>
         </div>
       </div>
     </div>
   </page>
-  <modal :showModal="showModal" name="slide" @close="showModal=false" @modal="showModal=false">
+  <modal :showModal="showModal" name="slideHalf" @close="showModal=false" @modal="showModal=false">
     <div class="flowerpot_modal">
       hello
     </div>
@@ -44,17 +51,28 @@ export default {
   },
   data: ()=> ({
     showModal: false,
-    count_seed: 20
+    count_seed: 20,
+    plantList: [1, 2, 3],
+    plant_active: 0,
+    mySwiper: null
   }),
   methods: {
     swiper() {
       let self = this
       let mySwiper = new Swiper('.swiper_container', {
         // width: clientRect().w,
+        onTransitionEnd: function(swiper){
+          self.plant_active = swiper.activeIndex
+        }
       })
+      this.mySwiper = mySwiper
     },
     showFlowerPot() {
       this.showModal = true
+    },
+    nextFn() {
+      let n = this.mySwiper
+      n.slideNext()
     }
   },
   mounted() {
@@ -69,7 +87,7 @@ export default {
 
 <style scoped lang="less">
 .seed_pane {
-  position: absolute;
+  position: relative;
   left: 12px;
   top: 30px;
   width: 70px;
@@ -88,7 +106,27 @@ export default {
 .swiper_container {
   margin-top: 100px;
 }
-
+.next_pane {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  border-radius: 30px;
+  display: block;
+  margin: 0 auto;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  box-shadow: 1px 4px 4px #ddd;
+  &:active {
+    opacity: 0.8;
+  }
+  img {
+    width: 20px;
+    text-align: center;
+  }
+}
 // flower
 .flower_wrap {
   position: absolute;
@@ -119,7 +157,6 @@ export default {
   overflow-x: auto;
   overflow-y: hidden;
   background: #fff;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
+
 </style>
