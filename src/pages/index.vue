@@ -2,9 +2,9 @@
 <div class="">
   <page>
     <div>
-      <!-- <bg></bg> -->
+      <bg></bg>
       <div class="sun_wrap">
-        <energy :state='false' point="dsd" :times="36302"></energy>
+        <!-- <energy :state='false' point="6600" :time="12"></energy> -->
       </div>
 
     </div>
@@ -32,6 +32,9 @@ export default {
 
 <style lang="less">
 .sun_wrap {
+  position: relative;
+  left: 80px;
+  top: 40px;
   animation: linearUP 2s linear infinite;
 }
 </style>

@@ -4,7 +4,7 @@
       <img src="//p8jtbvrrf.bkt.clouddn.com/pic_sun.png" alt="">
       <p>{{point}}</p>
     </div>
-    <div class="sun_pane" v-else>
+    <div class="sun_pane" v-else @click="disFn">
       <img src="//p8jtbvrrf.bkt.clouddn.com/pic_sun_dis.png" alt="">
       <p>{{left}}</p>
     </div>
@@ -15,18 +15,15 @@
 export default {
   data: ()=> ({
     isUse: false,
-    left: "00:00"
+    left: "--:--"
   }),
   props: {
     state: Boolean,
     point: [String, Number],
-    times: {
+    time: {
       type: [Number, String],
       default: 0
     }
-  },
-  computed: {
-
   },
   watch: {
     state: function(n, o){
@@ -34,27 +31,58 @@ export default {
     }
   },
   methods: {
-    gettime: ()=> {
+    gettime(t) {
       let h = 0
       let m = 0
       let s = 0
-      setTimeout(()=> {
-        console.log(this.times);
-        h = Math.floor(this.times/3600)
-        m = Math.floor((this.times%3600)/60)<10? `0${Math.floor((this.times%3600)/60)}` : Math.floor((this.times%3600)/60)
-        s = Math.floor((this.times%3600)%60)<10? `0${Math.floor((this.times%3600)%60)}` : Math.floor((this.times%3600)%60)
-        console.log('h', h);
-        if(h>0) {
-          this.left = `${h}小时`
-        }else {
-          this.left = `${m}:${s}`
-        }
-      }, 10)
+      h = Math.floor(t/3600)
+      m = Math.floor((t%3600)/60)<10? `0${Math.floor((t%3600)/60)}` : Math.floor((t%3600)/60)
+      s = Math.floor((t%3600)%60)<10? `0${Math.floor((t%3600)%60)}` : Math.floor((t%3600)%60)
+      if(h>0) {
+        this.left = `${h}小时`
+      }else {
+        this.left = `${m}:${s}`
+      }
+    },
+    interval() {
+      let t = this.time
+      let c = 1000
+      if(Math.floor(t/3600)>1) {
+        c = 60000
+      }
+      try {
+        let timer = setInterval(()=> {
+          if(this.isUse) {
+            clearInterval(timer)
+          }else {
+            if(t>0) {
+              t--
+              this.gettime(t)
+            }else {
+              this.isUse = true
+              clearInterval(timer)
+            }
+          }
+        }, c)
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setTimeout(()=> {
+          this.left = '00:00'
+          this.isUse = true
+        }, this.time*1000+100)
+      }
+    },
+    disFn() {
+      this.$toast.show('还不能收获哦')
     }
   },
   created() {
     this.isUse = this.state
-    this.gettime()
+
+  },
+  mounted() {
+    this.interval()
   }
 }
 </script>
@@ -71,11 +99,11 @@ export default {
   }
   p {
     position: absolute;
-    font-size: 15px;
-    line-height: 15px;
+    font-size: 12px;
+    line-height: 12px;
     width: 100%;
     text-align: center;
-    margin-top: 22px;
+    margin-top: 24px;
     left: 0;
     top: 0;
     z-index: 2;

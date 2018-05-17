@@ -20,5 +20,10 @@ export default new Router({
       name: 'sort',
       component: ()=> import ('../pages/sort.vue')
     },
+    {
+      path: '/adopt',
+      name: 'adopt',
+      component: ()=> import ('../pages/adopt.vue')
+    },
   ]
 })

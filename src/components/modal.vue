@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <transition name="fade">
-      <div class="modal_full_page" v-if="showModal" @click="colseF($event)" :style="{background: background}"></div>
+      <div class="modal_full_page" v-if="showModal" :style="{background: background}"></div>
     </transition>
     <transition :name="name">
       <div class="contain_bg_wrap" v-if="showModal" @click.stop="toggleFn($event)">
@@ -37,10 +37,12 @@ export default {
   },
   methods: {
     colseF() {
+      console.log('close');
       this.$emit('close')
     },
     toggleFn($event){
       if (!$event.target.classList.contains('contain_bg_wrap')) {
+        this.$emit('close')
         return;
       }
       this.$emit('modal')
