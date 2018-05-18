@@ -1,13 +1,20 @@
 <template lang="html">
   <div class="">
-    <div class="sun_pane" v-if="isUse">
-      <img src="//p8jtbvrrf.bkt.clouddn.com/pic_sun.png" alt="">
-      <p>{{point}}</p>
-    </div>
-    <div class="sun_pane" v-else @click="disFn">
+    <transition name="topOffset">
+      <div class="sun_pane" v-if="showEng" :class="{showAnimate: showAnimate}" @click="getEngFn">
+        <img :style="{opacity: isUse? '1': '0.7'}" src="//p8jtbvrrf.bkt.clouddn.com/pic_sun.png" alt="">
+        <p>{{isUse? point: left}}</p>
+      </div>
+    </transition>
+
+    <!-- <div class="sun_pane">
+      <img :style="{opacity: isUse? '1': '0.7'}" src="//p8jtbvrrf.bkt.clouddn.com/pic_sun.png" alt="">
+      <p>{{isUse? point: left}}</p>
+    </div> -->
+    <!-- <div class="sun_pane" v-else @click="disFn">
       <img src="//p8jtbvrrf.bkt.clouddn.com/pic_sun_dis.png" alt="">
       <p>{{left}}</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -15,10 +22,16 @@
 export default {
   data: ()=> ({
     isUse: false,
-    left: "--:--"
+    left: "--:--",
+    showEng: false,
+    showAnimate: false
   }),
   props: {
     state: Boolean,
+    // showEng: {
+    //   type: Boolean,
+    //   default: false
+    // },
     point: [String, Number],
     time: {
       type: [Number, String],
@@ -75,11 +88,26 @@ export default {
     },
     disFn() {
       this.$toast.show('还不能收获哦')
+    },
+    getEngFn() {
+      if(this.isUse) {
+        this.showAnimate = false
+        setTimeout(()=> {
+          this.showEng = false
+        }, 10)
+      }else {
+        this.disFn()
+      }
     }
   },
   created() {
     this.isUse = this.state
-
+    setTimeout(()=> {
+      this.showEng = true
+    }, 3000)
+    setTimeout(()=> {
+      this.showAnimate = true
+    }, 3550)
   },
   mounted() {
     this.interval()
@@ -93,6 +121,7 @@ export default {
   height: 60px;
   overflow: hidden;
   position: relative;
+  //
   img {
     width: 100%;
     height: 100%;
@@ -109,5 +138,16 @@ export default {
     z-index: 2;
     color: #fff;
   }
+
+}
+.showAnimate {
+  animation: linearUP 2s linear infinite;
+}
+.topOffset-enter-active, .topOffset-leave-active {
+  transition: all 0.5s ease-out;
+}
+.topOffset-enter, .topOffset-leave-to {
+  transform: translate3d(40px, 100px, 0) scale(0);
+  opacity: 0;
 }
 </style>

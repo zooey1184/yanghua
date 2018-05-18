@@ -2,13 +2,13 @@
 <div class="">
   <page title="领养">
     <div>
-      <!-- <bg></bg> -->
-      <!-- <div class="seed_pane">
+      <bg></bg>
+      <div class="seed_pane">
         <img src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
         <p>{{count_seed}}</p>
-      </div> -->
+      </div>
 
-      <!-- <div class="swiper_container" ref="swiper">
+      <div class="swiper-container" ref="swiper">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
             <seed title="向日葵" :haved="true"></seed>
@@ -22,10 +22,10 @@
         </div>
       </div>
       <div class="next_pane">
-        <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" @click="nextFn" v-if="plant_active<plantList.length-1" alt="">
-      </div> -->
+        <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" @click="nextFn" v-if="plant_active<2" alt="">
+      </div>
       <div class="flower_wrap">
-        <!-- <img src="//p8jtbvrrf.bkt.clouddn.com/xrk_l_a.gif" alt=""> -->
+        <img src="//p8jtbvrrf.bkt.clouddn.com/xrk_l_a.gif" alt="">
         <div class="click_change" @click="showFlowerPot">
           <p>点击更换花瓶</p>
         </div>
@@ -42,6 +42,7 @@
 
 <script>
 import {path} from '@/api/yanghua'
+import {clientRect} from '@/common/js/base'
 
 export default {
   components: {
@@ -59,9 +60,10 @@ export default {
   methods: {
     swiper() {
       let self = this
-      let mySwiper = new Swiper('.swiper_container', {
+      let mySwiper = new Swiper('.swiper-container', {
         // width: clientRect().w,
         onTransitionEnd: function(swiper){
+          console.log(swiper.activeIndex);
           self.plant_active = swiper.activeIndex
         }
       })
@@ -103,7 +105,7 @@ export default {
   }
 }
 // swiper
-.swiper_container {
+.swiper-container {
   margin-top: 100px;
 }
 .next_pane {

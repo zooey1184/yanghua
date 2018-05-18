@@ -31,7 +31,6 @@ export function path(data={}) {
   let o = window.location.origin
   let api = 'api'
   let params = sign(data)
-  console.log('sss', params);
   let paths = {
     harvest: `${o}/${api}/energy/harvest?${params}`,                  // 能量收取      post [uid, energyId, userPlantId]
     flowerpot_list: `${o}/${api}/flowerpot/list?${params}`,           // 花瓶列表      get
