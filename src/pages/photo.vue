@@ -7,7 +7,14 @@
 </template>
 
 <script>
+import history from '@/common/mixins/common'
+
 export default {
+  mixins: [history],
+  data: ()=> ({
+    action: 'backward'
+  }),
+
 }
 </script>
 

@@ -2,7 +2,7 @@
 <div class="">
   <page title="领养">
     <div>
-      <bg></bg>
+      <!-- <bg></bg>
       <div class="seed_pane">
         <img src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
         <p>{{count_seed}}</p>
@@ -29,7 +29,7 @@
         <div class="click_change" @click="showFlowerPot">
           <p>点击更换花瓶</p>
         </div>
-      </div>
+      </div> -->
     </div>
   </page>
   <modal :showModal="showModal" name="slideHalf" @close="showModal=false" @modal="showModal=false">
@@ -75,14 +75,24 @@ export default {
     nextFn() {
       let n = this.mySwiper
       n.slideNext()
+    },
+    flowerpot_list() {
+      let self = this
+      this.$ajax({
+        url: path().flowerpot_list,
+        type: 'get',
+        success: r=> {
+          console.log(r);
+        }
+      })
     }
   },
   mounted() {
     setTimeout(()=> {
       this.swiper()
     }, 50)
-    let data = {a: "aa", b: "bb", d: "www", c: 'cc'}
-    console.log(path(data).adopt);
+
+    this.flowerpot_list()
   }
 }
 </script>

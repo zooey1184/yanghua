@@ -1,18 +1,18 @@
 <template lang="html">
 <div class="">
-  <page>
+  <page bgWrap="#fff">
     <div>
-      <bg :day="day"></bg>
+      <!-- <bg :day="day"></bg> -->
       <div class="sun_wrap">
-        <energy :state='false' point="6600" :time="12"></energy>
+        <!-- <energy :state='false' point="6600" :time="12"></energy> -->
       </div>
 
-      <div class="count_pane" @click="$router.push('/sort')">
+      <!-- <div class="count_pane" @click="goSort">
         666
         <button class="sort_btn">排行</button>
-      </div>
-      <img class="camera" @click="cameraFn" src="//p8jtbvrrf.bkt.clouddn.com/icon_camera.png" alt="">
-      <img class="photo" @click="$router.push('/photo')" src="//p8jtbvrrf.bkt.clouddn.com/icon_pic.png" alt="">
+      </div> -->
+      <!-- <img class="camera" @click="cameraFn" src="//p8jtbvrrf.bkt.clouddn.com/icon_camera.png" alt=""> -->
+      <img class="photo" @click="goPhoto" src="//p8jtbvrrf.bkt.clouddn.com/icon_pic.png" alt="">
     </div>
   </page>
   <modal :showModal="showModal" @modal="showModal=false">
@@ -30,6 +30,7 @@
 
 <script>
 import {timeFormate} from '@/common/js/base'
+import history from '@/common/mixins/common'
 
 export default {
   components: {
@@ -46,8 +47,10 @@ export default {
     photo: {
       time: '',
       title: '仙人掌'
-    }
+    },
+    action: 'fade'
   }),
+  mixins: [history],
   methods: {
     getDay() {
       let d = new Date()
@@ -62,6 +65,12 @@ export default {
       this.showPhoto = true
       let t = timeFormate().formate()
       this.photo.time = t
+    },
+    goPhoto() {
+      this.$router.push('/photo')
+    },
+    goSort() {
+      this.$router.push('/sort')
     }
   },
   created() {
@@ -77,7 +86,7 @@ export default {
   position: relative;
   left: 80px;
   top: 40px;
-  
+
 }
 .modal_wrap {
   position: relative;
