@@ -6,15 +6,6 @@
         <p>{{isUse? point: left}}</p>
       </div>
     </transition>
-
-    <!-- <div class="sun_pane">
-      <img :style="{opacity: isUse? '1': '0.7'}" src="//p8jtbvrrf.bkt.clouddn.com/pic_sun.png" alt="">
-      <p>{{isUse? point: left}}</p>
-    </div> -->
-    <!-- <div class="sun_pane" v-else @click="disFn">
-      <img src="//p8jtbvrrf.bkt.clouddn.com/pic_sun_dis.png" alt="">
-      <p>{{left}}</p>
-    </div> -->
   </div>
 </template>
 
@@ -28,10 +19,10 @@ export default {
   }),
   props: {
     state: Boolean,
-    // showEng: {
-    //   type: Boolean,
-    //   default: false
-    // },
+    index: {
+      type: Number,
+      default: 0
+    },
     point: [String, Number],
     time: {
       type: [Number, String],
@@ -102,12 +93,15 @@ export default {
   },
   created() {
     this.isUse = this.state
+    let t = 500
+    let d = this.index/10*1000
+    let s =
     setTimeout(()=> {
       this.showEng = true
-    }, 3000)
+    }, t+d)
     setTimeout(()=> {
       this.showAnimate = true
-    }, 3550)
+    }, t+d+1050)
   },
   mounted() {
     this.interval()
@@ -121,6 +115,7 @@ export default {
   height: 60px;
   overflow: hidden;
   position: relative;
+  margin: 5px;
   //
   img {
     width: 100%;
@@ -144,10 +139,10 @@ export default {
   animation: linearUP 2s linear infinite;
 }
 .topOffset-enter-active, .topOffset-leave-active {
-  transition: all 0.5s ease-out;
+  transition: all 1s ease-out;
 }
 .topOffset-enter, .topOffset-leave-to {
-  transform: translate3d(40px, 100px, 0) scale(0);
+  transform: translate3d(40px, 150px, 0) scale(0);
   opacity: 0;
 }
 </style>

@@ -9,14 +9,14 @@
         <p>需要种子</p>
         <div class="seed">
           <img src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
-          <p>免费</p>
+          <p>{{needSeed}}</p>
         </div>
       </div>
       <div class="item">
         <p>收获种子</p>
         <div class="seed">
           <img src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
-          <p>X 1</p>
+          <p>X {{acquiredSeed}}</p>
         </div>
       </div>
     </div>
@@ -27,13 +27,16 @@
 export default {
   data:()=> ({
     showId: 0,      // 0：问号， 1：向日葵， 2：仙人掌
+    needSeed_s: '0'
   }),
   props: {
     title: String,
     haved: {
       type: Boolean,
-      default: false
-    }
+      default: true
+    },
+    acquiredSeed: [String, Number],
+    needSeed: [String, Number],
   },
   watch: {
     haved: function(n, o) {

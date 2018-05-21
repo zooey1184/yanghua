@@ -1,31 +1,62 @@
 <template lang="html">
 <page title="本周排行" :state="pageState">
   <div class="">
-    <list name="toastSlideUp" v-if="pageState=='success'">
-      <item title="hello" :sort="3" point="12点"></item>
-      <item title="hello" :sort="4" point="12点"></item>
+    <div style="padding: 10px 0;" v-if="rankList.length>0">
+      <list name="toastSlideUp" v-if="pageState=='success'">
+        <item :title="item.nickname" :sort="index+1" :point="(`${item.energySize}点`)" v-for="(item, index) in rankList" :key="index">
+          <img :src="item.avatar" v-if="avatarFn(item.avatar)" alt="">
+        </item>
+      </list>
+    </div>
 
-    </list>
+    <tip-page title="暂无排行记录" v-else></tip-page>
   </div>
 </page>
 </template>
 
 <script>
-import history from '@/common/mixins/common'
+import {path} from '@/api/yanghua'
 
 export default {
   data: ()=> ({
-    pageState: 'loading'
+    pageState: 'loading',
+    rankList: [],
+    preImg: '//p8jtbvrrf.bkt.clouddn.com/'
   }),
-  mixins: [history],
   components: {
     list: ()=> import ('@/components/List/List.vue'),
-    item: ()=> import ('@/components/List/item.vue')
+    item: ()=> import ('@/components/List/item.vue'),
+    tipPage: ()=> import ('@/components/PageWrap/tipPage.vue')
+  },
+  methods: {
+    getData() {
+      let self = this
+      this.$ajax({
+        url: path().currentWeekRank,
+        type: 'get',
+        success: r=> {
+          console.log(r);
+          if(r.code===0) {
+            self.rankList = r.data
+            setTimeout(()=> {
+              self.pageState = 'success'
+            }, 50)
+          }
+        }
+      })
+    },
+    avatarFn(img) {
+      let a = true
+      if(!img.match(/(jpg|jpeg|png|gif)/g)) {
+        a = false
+      }else {
+        a = true
+      }
+      return a
+    }
   },
   created() {
-    setTimeout(()=> {
-      this.pageState = 'success'
-    }, 500)
+    this.getData()
   }
 }
 </script>

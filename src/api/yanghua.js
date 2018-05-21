@@ -30,7 +30,8 @@ export function sign(data={}) {
 }
 
 export function path(data={}) {
-  let o = originHost()
+  // let o = originHost()
+  let o = window.location.origin
   let api = 'plant/api'
   let params = sign(data)
   let paths = {
@@ -38,12 +39,14 @@ export function path(data={}) {
     flowerpot_list: `${o}/${api}/flowerpot/list?${params}`,           // 花瓶列表      get
     plant_list: `${o}/${api}/plant/list?${params}`,                   // 植物列表      get
     update: `${o}/${api}/user/update?${params}`,                      // 创建用户      post [userId, nickname, avatar]
-    walk_update: `${o}/${api}/walkRecord/update?${params}`,           // 每日更新步数  post [uid, steps]
+    // walk_update: `${o}/${api}/walkRecord/update?${params}`,           // 每日更新步数  post [uid, steps]
     adopt: `${o}/${api}/userPlant/adopt?${params}`,                   // 领养植物     post [uid, flowerpotId, plantId]
     detail: `${o}/${api}/userPlant/detail?${params}`,                 // 植物详情     get [uid]
     discard: `${o}/${api}/userPlant/discard?${params}`,               // 丢弃植物     post [uid, userPlantId]
     harvest_seed: `${o}/${api}/userPlant/harvest?${params}`,          // 收获种子     post [uid, userPlantId]
     watering: `${o}/${api}/water/watering?${params}`,                 // 浇水        post  [uid, userPlantId]
+
+    currentWeekRank:  `${o}/${api}/weekRank/currentWeekRank?${params}`,// 当前排名  get 
   }
   return paths
 }

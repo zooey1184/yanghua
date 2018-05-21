@@ -1,7 +1,7 @@
 <template slot-scope="props">
   <div class="">
     <transition :name="name">
-      <div class="list_item_wrap" v-show="showItem" :class="{underline: getUnderLine || showUnderLine}" :style="{transitionDelay: animateSec, height: `${height}px` }">
+      <div class="list_item_wrap" v-show="showItem" :class="{underline: showUnderLine}" :style="{transitionDelay: animateSec, height: `${height}px` }">
         <div class="sort_left">
           <div class="">
             <div class="sort_img_p" v-if="sort<4">
@@ -13,7 +13,7 @@
           </div>
           <div class="header">
             <slot>
-              <img src="//oo6gk8wuu.bkt.clouddn.com/header1.jpg" alt="">
+              <img style="width: 80%; height: 80%; position: relative; left: 10%; top: 10%" src="//ow9z7qnv9.bkt.clouddn.com/user.png" alt="">
             </slot>
           </div>
           <p>{{title}}</p>
@@ -161,6 +161,7 @@ export default {
     border-radius: 30px;
     overflow: hidden;
     margin-right: 15px;
+    background: #ddd;
     img {
       width: 100%;
       height: 100%;

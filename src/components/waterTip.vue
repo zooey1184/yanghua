@@ -12,7 +12,7 @@
     <div class="">
       <chart-bar :barData="barData" :showBar="true"></chart-bar>
     </div>
-    <img class="modal_close_water" src="//p8jtbvrrf.bkt.clouddn.com/icon_close.png" alt="">
+    <img class="modal_close_water" @click="closeModal" src="//p8jtbvrrf.bkt.clouddn.com/icon_close.png" alt="">
   </div>
 </template>
 
@@ -39,7 +39,9 @@ export default {
     chartBar
   },
   methods: {
-
+    closeModal() {
+      this.$emit('iclose')
+    }
   }
 }
 </script>

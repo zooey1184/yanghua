@@ -30,6 +30,9 @@ export default {
   watch: {
     '$route': function(to, from) {
       let self = this
+      if(to.path=='/index') {
+        document.title = '养花'
+      }
       let s = window.sessionStorage
       let r = (s.route && (typeof(JSON.parse(s.route))=='object') && JSON.parse(s.route).length>0)?JSON.parse(s.route):[]
       if( from.path=='/' && (!to.path || to.path=='/') ) {

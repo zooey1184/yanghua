@@ -66,6 +66,14 @@ export function timeFormate () {
         return formate
       }
     }
+    week() {
+      let t = new Date()
+      let w = t.getDay()
+      let c = '星期'
+      let enmu = ['天', '一', '二', '三', '四', '五', '六']
+      let d = enmu[w]
+      return `${c}${d}`
+    }
   }
   let t = new TimeFn()
   return t
