@@ -3,7 +3,7 @@
   <page title="领养">
     <div>
       <bg></bg>
-      <div class="seed_pane">
+      <div class="seed_pane" v-if="false">
         <img src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
         <p>{{count_seed}}</p>
       </div>
@@ -20,10 +20,11 @@
         <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" @click="nextFn" v-if="plant_active<plantList.length-1" alt="">
       </div>
       <div class="flower_wrap">
-        <img src="//p8jtbvrrf.bkt.clouddn.com/xrk_l_a.gif" alt="">
-        <div class="click_change" @click="showFlowerPot">
+        <img v-if="currentName=='向日葵'" src="//p8jtbvrrf.bkt.clouddn.com/xrk_l_a.gif" alt="">
+        <img v-if="currentName=='仙人掌'" src="//p8jtbvrrf.bkt.clouddn.com/xrz_m_a.gif" alt="">
+        <!-- <div class="click_change" @click="showFlowerPot">
           <p>点击更换花瓶</p>
-        </div>
+        </div> -->
       </div>
 
       <button class="submit_btn" @click="submit_Fn">领养</button>
@@ -55,6 +56,7 @@ export default {
     count_seed: 20,
     plantList: [],
     plant_active: 0,
+    currentName: '',
     plantId: null,
     flowerpot_list: [],
     flowerpot_active: 0,
@@ -69,6 +71,7 @@ export default {
         on:{
           slideChangeTransitionEnd: function() {
             self.plant_active = this.snapIndex
+            self.currentName = self.plantList[this.snapIndex].name
           }
         }
       })
@@ -103,6 +106,7 @@ export default {
           console.log(r);
           if(r.code===0) {
             self.plantList = r.data
+            self.currentName = r.data[0].name
             self.plantId = r.data[0].id
           }
         }
@@ -138,9 +142,19 @@ export default {
         success: r=> {
           console.log(r);
           if(r.code===0) {
-            self.$router.push('/index')
+            self.$toast.show({
+              position: 'middle',
+              type: 'success',
+              message: '领养成功'
+            })
+            setTimeout(()=> {
+              window.localStorage.setItem('reload', 'true')
+              self.$router.push('/index')
+            }, 1000)
+
           }else if(r.code===10) {
             self.$toast.show(r.userMessage)
+            window.localStorage.setItem('reload', 'true')
             setTimeout(()=> {
               self.$router.push('/index')
             }, 1500)

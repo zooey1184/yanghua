@@ -6,7 +6,7 @@
     </header>
     <div class="desc">
       <slot name='desc'>
-        <p>dangqian{{desc}}</p>
+        <p>当前还需灌溉{{desc}}杯水</p>
       </slot>
     </div>
     <div class="">
@@ -24,16 +24,20 @@ export default {
   props: {
     title: String,
     desc: [String, Number],
+    barData: {
+      type: Array,
+      default: ()=> ([])
+    }
   },
   data: ()=> ({
-    barData: [
-      {
-        bg: '#d43f33',
-        value: 40,
-        total: 2000,
-        part: 1500
-      }
-    ]
+    // barData: [
+    //   {
+    //     bg: '#d43f77',
+    //     value: 40,
+    //     total: 2000,
+    //     part: 1500
+    //   }
+    // ]
   }),
   components: {
     chartBar

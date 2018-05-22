@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import {path} from '@/api/yanghua'
+
 export default {
   data: ()=> ({
     isUse: false,
@@ -27,7 +29,9 @@ export default {
     time: {
       type: [Number, String],
       default: 0
-    }
+    },
+    energyId: [Number, String],
+    userPlantId: [Number, String],
   },
   watch: {
     state: function(n, o){
@@ -51,6 +55,9 @@ export default {
     interval() {
       let t = this.time
       let c = 1000
+      if(t==0) {
+        return
+      }
       if(Math.floor(t/3600)>1) {
         c = 60000
       }
@@ -58,6 +65,7 @@ export default {
         let timer = setInterval(()=> {
           if(this.isUse) {
             clearInterval(timer)
+            return
           }else {
             if(t>0) {
               t--
@@ -81,14 +89,31 @@ export default {
       this.$toast.show('还不能收获哦')
     },
     getEngFn() {
-      if(this.isUse) {
-        this.showAnimate = false
-        setTimeout(()=> {
-          this.showEng = false
-        }, 10)
-      }else {
-        this.disFn()
+      let self = this
+      let data = {
+        uid: window.localStorage.getItem('uid'),
+        energyId: this.energyId,
+        userPlantId: this.userPlantId
       }
+      this.$ajax({
+        url: path().harvest,
+        data: data,
+        success: r=> {
+          if(r.code===0) {
+            if(this.isUse) {
+              this.showAnimate = false
+              setTimeout(()=> {
+                this.showEng = false
+              }, 10)
+            }else {
+              this.disFn()
+            }
+            this.$emit('callback')
+          }else {
+            self.$toast.show(r.userMessage || "还不能收取哦")
+          }
+        }
+      })
     }
   },
   created() {

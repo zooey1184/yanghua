@@ -4,12 +4,18 @@
     <div style="padding: 10px 0;" v-if="rankList.length>0">
       <list name="toastSlideUp" v-if="pageState=='success'">
         <item :title="item.nickname" :sort="index+1" :point="(`${item.energySize}点`)" v-for="(item, index) in rankList" :key="index">
-          <img :src="item.avatar" v-if="avatarFn(item.avatar)" alt="">
+          <img :src="item.avatar" @click="test" v-if="avatarFn(item.avatar)" alt="">
         </item>
       </list>
     </div>
 
-    <tip-page title="暂无排行记录" v-else></tip-page>
+    <tip-page v-else title="暂无排行记录">
+      <!-- <div slot="tip">
+        <p>暂无排行记录
+          <span @click="lastWeekRank" style="color: blue">查看上周</span>
+        </p>
+      </div> -->
+    </tip-page>
   </div>
 </page>
 </template>
@@ -44,6 +50,26 @@ export default {
           }
         }
       })
+    },
+    lastWeekRank() {
+      let self = this
+      this.$ajax({
+        url: path().lastWeekRank,
+        type: 'get',
+        success: r=> {
+          console.log(r);
+          if(r.code===0) {
+            self.rankList = r.data
+            setTimeout(()=> {
+              self.pageState = 'success'
+            }, 50)
+          }
+        }
+      })
+    },
+    test() {
+      window.localStorage.setItem('reload', 'true')
+      window.history.back()
     },
     avatarFn(img) {
       let a = true

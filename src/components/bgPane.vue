@@ -43,10 +43,15 @@ export default {
   }
   .plant_slot {
     position: absolute;
-    left: 35%;
+    left: 57%;
     bottom: 10%;
-    width: 40%;
+    width: 70%;
     height: 25%;
+    transform: translateX(-50%);
+    bottom: 5%;
+    img {
+      width: 100%;
+    }
   }
 }
 </style>

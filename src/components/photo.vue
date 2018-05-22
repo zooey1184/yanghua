@@ -11,13 +11,15 @@
         <p>{{title}}</p>
         <p>{{time}}</p>
       </div>
-      <button class="save_btn"  v-if="showClose">保存</button>
+      <button class="save_btn"  v-if="showClose" @click="save">保存</button>
     </div>
     <img class="modal_close_water" v-if="showClose" @click="closeFn" src="//p8jtbvrrf.bkt.clouddn.com/icon_close.png" alt="">
   </div>
 </template>
 
 <script>
+import {path} from '@/api/yanghua'
+
 export default {
   components: {
     bg: ()=> import ('@/components/bgPane.vue'),
@@ -39,6 +41,10 @@ export default {
   methods: {
     closeFn() {
       this.$emit('close')
+    },
+    save() {
+      let self = this
+      this.$emit('save')
     }
   }
 }
@@ -69,7 +75,10 @@ export default {
       height: 35%;
       left: 35%;
       bottom: 10%;
-      background: #ddd
+      // background: #ddd;
+      img {
+        width: 100%
+      }
     }
   }
   .desc {

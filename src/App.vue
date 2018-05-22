@@ -64,6 +64,26 @@ export default {
         }
       }
       window.sessionStorage.setItem('route', JSON.stringify(r))
+      if(to.path=='/index') {
+        setTimeout(()=> {
+          if(window.reload) {
+            window.reload()
+          }else {
+            window.location.reload()
+          }
+        }, 700)
+      }else {
+        if(window.localStorage.getItem('reload')=='true') {
+          window.localStorage.setItem('reload', 'false')
+          setTimeout(()=> {
+            if(window.reload) {
+              window.reload()
+            }else {
+              window.location.reload()
+            }
+          }, 700)
+        }
+      }
     }
   }
 }

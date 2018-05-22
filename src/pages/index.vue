@@ -2,17 +2,16 @@
 <div class="">
   <page bgWrap="#fff" title="养花" :state="pageState">
     <div>
-      <bg :day="day">
-        <plant :water="needWater" :seed="finished"></plant>
+      <bg :day="day" v-if="pageData">
+        <plant :water="needWater" :seed="finished" @seed="seedFn" @water="waterTipFn" :plantId="pageData.plantId" :growStage="pageData.growStage"></plant>
+        <!-- <plant :water="true" :seed="false" @water="waterTipFn"></plant> -->
       </bg>
-      <div class="sun_wrap">
-        <energy :state='false' point="6600" :index='0' :time="12"></energy>
-        <energy :state='false' point="6600" :index='1' :time="12"></energy>
-        <energy :state='false' point="6600" :index='2' :time="12"></energy>
+      <div class="sun_wrap" v-if="pageData">
+        <energy :state='true' :point="item.size" :energyId="item.id" :userPlantId="item.userPlantId" :index='index' v-for="(item, index) in pageData.energyList" :key="index"></energy>
       </div>
 
       <div class="count_pane" @click="$router.push('/sort')">
-        <p>666</p>
+        <p>{{energy}}</p>
         <button class="sort_btn">排行</button>
       </div>
       <img class="camera" @click="cameraFn" src="//p8jtbvrrf.bkt.clouddn.com/icon_camera.png" alt="">
@@ -28,12 +27,12 @@
 
   <modal :showModal="showModal">
     <div class="modal_wrap">
-      <water-tip title="向日葵" @iclose="showModal=false"></water-tip>
+      <water-tip :title="currentName" @iclose="showModal=false"></water-tip>
     </div>
   </modal>
   <modal :showModal="showPhoto" name="toastSlideUp" background="rgba(255, 255, 255, 0.3)">
     <div class="modal_wrap" style="width: 55%; height:46%">
-      <photo day="day" :showClose="true" :time="photo.time" @close="showPhoto=false" :title="photo.title"></photo>
+      <photo day="day" :showClose="true" :time="photo.time" @save="savePhoto" @close="showPhoto=false" :title="photo.title"></photo>
     </div>
   </modal>
 </div>
@@ -65,7 +64,9 @@ export default {
     action_water: 'none',
     needWater: false,
     finished: false,
-    pageData: null
+    pageData: null,
+    energy: null,
+    currentName: '',
   }),
   methods: {
     // 获取昼夜
@@ -117,20 +118,32 @@ export default {
         type: 'get',
         success: r=> {
           if(r.code===0) {
-            self.pageData = r.data
-            if(r.data.needWater===0) {
-              self.needWater = false
+            if(r.data) {
+              self.pageData = r.data
+              window.localStorage.setItem('uid', r.data.uid)
+              window.localStorage.setItem('userPlantId', r.data.userPlantId)
+              self.idChangePlant(r.data.plantId)
+              if(r.data.needWater===0) {
+                self.needWater = false
+              }else {
+                self.needWater = true
+              }
+              if(r.data.finished===0) {
+                self.finished = false
+              }else {
+                self.finished = true
+              }
             }else {
-              self.needWater = true
+              self.$router.push('/adopt')
             }
-            if(r.data.finished===0) {
-              self.finished = false
-            }else {
-              self.finished = true
-            }
+          }else {
+            self.$toast.show(r.userMessage)
           }
         }
       })
+    },
+    waterTipFn() {
+      this.showModal = true
     },
     // 浇水
     waterFn() {
@@ -144,20 +157,98 @@ export default {
         data: data,
         success: r=> {
           if(r.code===0) {
-            self.showModal = true
+            self.$toast.show({
+              position: 'middle',
+              type: 'success',
+              message: '灌溉成功！'
+            })
+            self.plant_detail()
           }else {
             self.$toast.show(r.userMessage || '还不能浇水哦')
+          }
+        }
+      })
+    },
+    idChangePlant(id) {
+      if(id===10) {
+        this.currentName = '仙人掌'
+      }
+      if(id===11) {
+        this.currentName = '向日葵'
+      }
+    },
+    seedFn() {
+      let self = this
+      let data = {
+        uid: this.pageData.uid,
+        userPlantId: this.pageData.userPlantId
+      }
+      this.$ajax({
+        url: path(data).harvest_seed,
+        data: data,
+        success: r=> {
+          if(r.code===0) {
+            self.$toast.show({
+              position: 'middle',
+              type: 'success',
+              message: '收获成功！'
+            })
+            self.plant_detail()
+          }else {
+            self.$toast.show(r.userMessage)
+          }
+        }
+      })
+    },
+    savePhoto() {
+      let self = this
+      this.showPhoto = false
+      let data = {
+        uid: window.localStorage.getItem('uid')
+      }
+      this.$ajax({
+        url: path(data).album_picture,
+        data: data,
+        success: r=> {
+          if(r.code===0) {
+            self.$toast.show({
+              message: '已保存',
+              type: 'success',
+              position: 'middle'
+            })
+          }else {
+            self.$toast.show(r.userMessage || '请稍后保存')
+          }
+        }
+      })
+    },
+    showDialog() {
+      let self = this
+      let data = {
+        uid: window.localStorage.getItem('uid')
+      }
+      this.$ajax({
+        url: path(data).showDialog,
+        type: 'get',
+        success: r=> {
+          if(r.code===0) {
+            console.log(r);
           }
         }
       })
     }
   },
   created() {
+    let self = this
     this.getDay()
     this.userUpdate()
+    this.showDialog()
     setTimeout(()=> {
       this.action_water = 'enter'
     }, 800)
+    window.reload = function() {
+      self.plant_detail()
+    }
   }
 }
 </script>
@@ -218,6 +309,9 @@ export default {
   // bottom: 10%;
   // width: 120px;
   // height: 180px;
+}
+.home_plant {
+  // width: 200px;
 }
 .water_grass {
   position: absolute;
