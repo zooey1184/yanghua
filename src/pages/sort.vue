@@ -2,7 +2,7 @@
 <page title="本周排行" :state="pageState">
   <div class="">
     <div style="padding: 10px 0;" v-if="rankList.length>0">
-      <list name="toastSlideUp" v-if="pageState=='success'">
+      <list name="rightOffset" v-if="pageState=='success'">
         <item :title="item.nickname" :sort="index+1" :point="(`${item.energySize}点`)" v-for="(item, index) in rankList" :key="index">
           <img :src="item.avatar" @click="test" v-if="avatarFn(item.avatar)" alt="">
         </item>

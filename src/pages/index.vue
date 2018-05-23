@@ -16,6 +16,7 @@
       </bg>
       <div class="sun_wrap" v-if="pageData">
         <energy :state='item.isAcquire!=0' :point="item.size" :energyId="item.id" :userPlantId="item.userPlantId" :index='index' v-for="(item, index) in pageData.energyList" :key="index"></energy>
+        <!-- <energy ></energy> -->
       </div>
 
       <div class="count_pane" @click="$router.push('/sort')" v-if="pageData">
@@ -26,9 +27,9 @@
       <img class="photo" @click.prevent="$router.push('/photo')" src="//p8jtbvrrf.bkt.clouddn.com/icon_pic.png" alt="">
 
       <transition name='rightOffset'>
-        <div class="water_grass" @click="waterFn" v-if="action_water=='enter'">
+        <div class="water_grass" v-if="action_water=='enter'">
           <div class="water_glass">
-            <img @click.prevent="imgFn" src="//p8jtbvrrf.bkt.clouddn.com/pic_water.png" alt="">
+            <img @click.prevent="waterFn" src="//p8jtbvrrf.bkt.clouddn.com/pic_water.png" alt="">
           </div>
 
         </div>
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-import {timeFormate, preload} from '@/common/js/base'
+import {timeFormate, preload, getUrlData} from '@/common/js/base'
 import {path} from '@/api/yanghua'
 
 export default {
@@ -112,24 +113,37 @@ export default {
     },
     // 创建用户
     userUpdate() {
-      let data = {
-        userId: 'huangpu',
-        nickname: 'huangpu',
-        avatar: '//p8jtbvrrf.bkt.clouddn.com/icon_pic.png'
-      }
-      let self = this
-      this.$ajax({
-        url: path(data).update,
-        success: r=> {
-          if(r.code===0) {
-            self.pageState = 'success'
-            self.plant_detail()
-          }else {
-            self.pageState = 'error'
-            self.$toast.show(r.message)
+      console.log(this.$route.query);
+      let r = this.$route.query
+      if(r.userId || r.zooey=='z') {
+        let data = {
+          userId: r.userId,
+          nickname: r.nickname,
+          avatar: r.avatar
+        }
+        if(r.zooey=='z') {
+          data = {
+            userId: "huangpu",
+            nickname: "huangpu",
+            avatar: "//oo6gk8wuu.bkt.clouddn.com/normal.png"
           }
         }
-      })
+        let self = this
+        this.$ajax({
+          url: path(data).update,
+          success: r=> {
+            if(r.code===0) {
+              self.pageState = 'success'
+              self.plant_detail()
+            }else {
+              self.pageState = 'error'
+              self.$toast.show(r.message)
+            }
+          }
+        })
+      }else {
+        this.$toast.show('链接不正确哦')
+      }
     },
     // 植物详情
     plant_detail() {
@@ -210,6 +224,7 @@ export default {
           }
         }
       })
+      console.log(data);
     },
     waterClose() {
       this.showModal=false
@@ -293,6 +308,11 @@ export default {
   },
   created() {
     let self = this
+    let r = this.$route.query
+    if(r.userId) {
+      window.localStorage.setItem('uid', r.userId)
+    }
+
     this.getDay()
     this.userUpdate()
     this.showDialog()
@@ -388,7 +408,7 @@ export default {
   align-items: center;
   justify-content: center;
   transition: all .5s ease-out;
-  z-index: 15;
+  z-index: 20;
   .water_glass {
     width: 50px;
     height: 50px;
