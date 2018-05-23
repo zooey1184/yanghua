@@ -43,7 +43,9 @@
   </modal>
   <modal :showModal="showPhoto" name="toastSlideUp" background="rgba(255, 255, 255, 0.3)">
     <div class="modal_wrap" style="width: 55%; height:46%">
-      <photo day="day" :showClose="true" :time="photo.time" @save="savePhoto" @close="showPhoto=false" :title="photo.title"></photo>
+      <photo v-if="pageData" :day="day" :showClose="true" :time="photo.time" @save="savePhoto" @close="showPhoto=false" :title="photo.title">
+        <img :src="(`${preImg}/${pageData.plantImage}`)" alt="">
+      </photo>
     </div>
   </modal>
 
@@ -180,7 +182,6 @@ export default {
       }
       this.$ajax({
         url: path(data).watering,
-        data: data,
         success: r=> {
           if(r.code===0) {
             self.$toast.show({
@@ -198,6 +199,7 @@ export default {
             }]
             setTimeout(()=> {
               self.showModal = true
+              self.plant_detail()
             }, 20)
             // self.plant_detail()
           }else {
@@ -208,7 +210,7 @@ export default {
     },
     waterClose() {
       this.showModal=false
-      this.plant_detail()
+      // this.plant_detail()
     },
     idChangePlant(id) {
       if(id===10) {
@@ -226,7 +228,6 @@ export default {
       }
       this.$ajax({
         url: path(data).harvest_seed,
-        data: data,
         success: r=> {
           if(r.code===0) {
             self.$toast.show({
@@ -249,7 +250,6 @@ export default {
       }
       this.$ajax({
         url: path(data).album_picture,
-        data: data,
         success: r=> {
           if(r.code===0) {
             self.$toast.show({
@@ -381,7 +381,7 @@ export default {
   .water_glass {
     width: 50px;
     height: 50px;
-    background: #02c6f3;
+    background: #9cd5ff;
     border-radius: 30px;
     display: flex;
     align-items: center;

@@ -7,7 +7,7 @@ import store from './store'
 
 Vue.config.productionTip = false
 // plugin here
-import vxajax from 'vxajax'
+import vxajax from '@/plugin/ajax/ajax.js'
 Vue.use(vxajax)
 import Toast from '@/plugin/tip/tip.js'
 Vue.use(Toast)

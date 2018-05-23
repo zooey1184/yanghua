@@ -71,28 +71,28 @@ export default {
     height: 78%;
     .slot_plant {
       position: absolute;
-      // width: 35%;
-      // height: 35%;
-      // left: 35%;
-      // bottom: 10%;
-      left: 57%;
-      bottom: 25%;
-      width: 70%;
-      height: 25%;
+      display: flex;
+      align-items: flex-end;
+      left: 55%;
+      bottom: 5%;
+      width: 60%;
+      height: 45%;
       transform: translateX(-50%);
-      // background: #ddd;
       img {
         width: 100%
       }
     }
   }
   .desc {
-    margin-top: 15px;
+    margin-top: 10px;
     color: #333;
     line-height: 20px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    p {
+      font-size: 14px;
+    }
   }
   .modal_close_water {
     width: 30px;

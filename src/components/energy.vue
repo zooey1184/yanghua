@@ -97,7 +97,6 @@ export default {
       }
       this.$ajax({
         url: path(data).harvest,
-        data: data,
         success: r=> {
           if(r.code===0) {
             if(this.isUse) {

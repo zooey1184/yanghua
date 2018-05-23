@@ -73,16 +73,17 @@ export default {
           }
         }, 700)
       }else {
-        if(window.localStorage.getItem('reload')=='true') {
-          window.localStorage.setItem('reload', 'false')
+        let c = to.name
+        if(c=='photo') {
           setTimeout(()=> {
-            if(window.reload) {
-              window.reload()
+            if(window.photo) {
+              window.photo()
             }else {
               window.location.reload()
             }
           }, 700)
         }
+
       }
     }
   }

@@ -143,7 +143,6 @@ export default {
       }
       this.$ajax({
         url: path(data).adopt,
-        data: data,
         success: r=> {
           console.log(r);
           if(r.code===0) {

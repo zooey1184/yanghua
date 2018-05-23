@@ -58,6 +58,10 @@ export default {
   },
   created() {
     this.getData()
+    let self  = this
+    window.photo = function() {
+      self.getData()
+    }
   }
 }
 </script>

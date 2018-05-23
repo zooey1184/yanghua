@@ -43,7 +43,6 @@ export default {
         if(this.name!="") {
           this.$ajax({
             url: path(data).address_add,
-            data: data,
             success: r=> {
               if(r.code===0) {
                 self.$emit('callback')
@@ -60,7 +59,6 @@ export default {
         }else {
           this.$toast.show("姓名不能为空哦")
         }
-
       }else {
         self.$toast.show('电话号码不正确')
       }
