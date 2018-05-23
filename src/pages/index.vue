@@ -1,17 +1,25 @@
 <template lang="html">
 <div class="">
-  <page bgWrap="#fff" title="养花" :state="pageState">
+  <page bgWrap="#ddd" title="养花" :state="pageState">
     <div>
       <bg :day="day" v-if="pageData">
-        <plant :water="needWater" :seed="finished" @seed="seedFn" @water="waterTipFn" :plantId="pageData.plantId" :growStage="pageData.growStage"></plant>
+        <plant
+          :water="needWater"
+          :seed="finished"
+          @seed="seedFn"
+          @water="waterTipFn"
+          :plantId="pageData.plantId"
+          :growStage="pageData.growStage">
+          <img slot="flower" :src="(`${preImg}/${pageData.plantImage}`)" alt="">
+        </plant>
         <!-- <plant :water="true" :seed="false" @water="waterTipFn"></plant> -->
       </bg>
       <div class="sun_wrap" v-if="pageData">
-        <energy :state='true' :point="item.size" :energyId="item.id" :userPlantId="item.userPlantId" :index='index' v-for="(item, index) in pageData.energyList" :key="index"></energy>
+        <energy :state='item.isAcquire!=0' :point="item.size" :energyId="item.id" :userPlantId="item.userPlantId" :index='index' v-for="(item, index) in pageData.energyList" :key="index"></energy>
       </div>
 
-      <div class="count_pane" @click="$router.push('/sort')">
-        <p>{{energy}}</p>
+      <div class="count_pane" @click="$router.push('/sort')" v-if="pageData">
+        <p>{{pageData.totalEnergy}}</p>
         <button class="sort_btn">排行</button>
       </div>
       <img class="camera" @click="cameraFn" src="//p8jtbvrrf.bkt.clouddn.com/icon_camera.png" alt="">
@@ -19,7 +27,10 @@
 
       <transition name='rightOffset'>
         <div class="water_grass" @click="waterFn" v-if="action_water=='enter'">
-          <img src="//p8jtbvrrf.bkt.clouddn.com/pic_water.png" alt="">
+          <div class="water_glass">
+            <img src="//p8jtbvrrf.bkt.clouddn.com/pic_water.png" alt="">
+          </div>
+
         </div>
       </transition>
     </div>
@@ -27,12 +38,18 @@
 
   <modal :showModal="showModal">
     <div class="modal_wrap">
-      <water-tip :title="currentName" @iclose="showModal=false"></water-tip>
+      <water-tip :title="currentName" :desc="water_desc" :barData="barData" @iclose="waterClose"></water-tip>
     </div>
   </modal>
   <modal :showModal="showPhoto" name="toastSlideUp" background="rgba(255, 255, 255, 0.3)">
     <div class="modal_wrap" style="width: 55%; height:46%">
       <photo day="day" :showClose="true" :time="photo.time" @save="savePhoto" @close="showPhoto=false" :title="photo.title"></photo>
+    </div>
+  </modal>
+
+  <modal :showModal="showAward" background="rgba(255, 255, 255, 0.3)">
+    <div class="modal_wrap award_modal" style="width: 80%;">
+      <award :sort="1" @callback="showAward=false" @confirm="showAward=false"></award>
     </div>
   </modal>
 </div>
@@ -49,11 +66,14 @@ export default {
     energy: ()=> import ('@/components/energy.vue'),
     waterTip: ()=> import ('@/components/waterTip.vue'),
     photo: ()=> import ('@/components/photo.vue'),
-    plant: ()=> import ('@/components/plant.vue')
+    plant: ()=> import ('@/components/plant.vue'),
+    award: ()=> import ('@/components/award.vue')
   },
   data: ()=> ({
     showModal: false,
     showPhoto: false,
+    showAward: false,
+    preImg: '//p8jtbvrrf.bkt.clouddn.com',
     day: 'day',
     pageState: 'loading',
     photo: {
@@ -67,6 +87,8 @@ export default {
     pageData: null,
     energy: null,
     currentName: '',
+    barData: [],
+    water_desc: null
   }),
   methods: {
     // 获取昼夜
@@ -122,6 +144,7 @@ export default {
               self.pageData = r.data
               window.localStorage.setItem('uid', r.data.uid)
               window.localStorage.setItem('userPlantId', r.data.userPlantId)
+
               self.idChangePlant(r.data.plantId)
               if(r.data.needWater===0) {
                 self.needWater = false
@@ -137,13 +160,16 @@ export default {
               self.$router.push('/adopt')
             }
           }else {
-            self.$toast.show(r.userMessage)
+            self.$toast.show(r.userMessage || "请求出错啦")
           }
         }
       })
     },
     waterTipFn() {
-      this.showModal = true
+      self.$toast.show({
+        message: '主人我需要喝水啦',
+        position: 'middle'
+      })
     },
     // 浇水
     waterFn() {
@@ -162,12 +188,27 @@ export default {
               type: 'success',
               message: '灌溉成功！'
             })
-            self.plant_detail()
+            let v = -r.data.currentTimes/t.data.totalTimes*100
+            self.water_desc = r.data.totalTimes-r.data.currentTimes
+            self.barData = [{
+              bg: '#f72f53',
+              value: v,
+              total: r.data.totalEnergy,
+              part: r.data.currentEnergy
+            }]
+            setTimeout(()=> {
+              self.showModal = true
+            }, 20)
+            // self.plant_detail()
           }else {
             self.$toast.show(r.userMessage || '还不能浇水哦')
           }
         }
       })
+    },
+    waterClose() {
+      this.showModal=false
+      this.plant_detail()
     },
     idChangePlant(id) {
       if(id===10) {
@@ -232,7 +273,13 @@ export default {
         type: 'get',
         success: r=> {
           if(r.code===0) {
-            console.log(r);
+            if(r.data>0) {
+              setTimeout(()=> {
+                self.showAward = true
+              }, 600)
+            }else {
+              self.showAward = false
+            }
           }
         }
       })
@@ -265,6 +312,12 @@ export default {
 .modal_wrap {
   position: relative;
   width: 80%;
+  background: #fff;
+}
+.award_modal {
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
 .count_pane {
   position: absolute;
@@ -317,14 +370,23 @@ export default {
   position: absolute;
   right: 20px;
   bottom: 20px;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 30px;
   background-color: #eee;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all .5s ease-out;
+  .water_glass {
+    width: 50px;
+    height: 50px;
+    background: #02c6f3;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   img {
     width: 60%;
     display: block;

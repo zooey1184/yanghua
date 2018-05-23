@@ -46,10 +46,11 @@ export default {
     }
   },
   watch: {
-    state: function(n, o) {
+    water: function(n, o) {
+      let s = this.plantState()
       let t = this.plantType()
       let l = this.plantLevel()
-      this.img = `//p8jtbvrrf.bkt.clouddn.com/${t}_${l}_${this.state}.gif`
+      this.img = `//p8jtbvrrf.bkt.clouddn.com/${t}_${l}_${s}.gif`
     }
   },
   methods: {

@@ -45,11 +45,13 @@ export function path(data={}) {
     discard: `${o}/${api}/userPlant/discard?${params}`,               // 丢弃植物     post [uid, userPlantId]
     harvest_seed: `${o}/${api}/userPlant/harvest?${params}`,          // 收获种子     post [uid, userPlantId]
     watering: `${o}/${api}/water/watering?${params}`,                 // 浇水        post  [uid, userPlantId]
-    showDialog: `${o}/${api}/weekRank/showAddressDialog?${params}`, 
+    showDialog: `${o}/${api}/weekRank/showAddressDialog?${params}`,
     album_list: `${o}/${api}/album/list?${params}`,
     album_picture: `${o}/${api}/album/picture?${params}`,
     currentWeekRank:  `${o}/${api}/weekRank/currentWeekRank?${params}`,// 当前排名  get
     lastWeekRank:  `${o}/${api}/weekRank/lastWeekRank?${params}`,
+    seed: `${o}/${api}/seed/count?${params}`,
+    address_add: `${o}/${api}/address/add?${params}`,
   }
   return paths
 }

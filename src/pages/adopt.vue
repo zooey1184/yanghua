@@ -3,7 +3,7 @@
   <page title="领养">
     <div>
       <bg></bg>
-      <div class="seed_pane" v-if="false">
+      <div class="seed_pane">
         <img src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
         <p>{{count_seed}}</p>
       </div>
@@ -20,8 +20,9 @@
         <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" @click="nextFn" v-if="plant_active<plantList.length-1" alt="">
       </div>
       <div class="flower_wrap">
-        <img v-if="currentName=='向日葵'" src="//p8jtbvrrf.bkt.clouddn.com/xrk_l_a.gif" alt="">
-        <img v-if="currentName=='仙人掌'" src="//p8jtbvrrf.bkt.clouddn.com/xrz_m_a.gif" alt="">
+        <img :src="img" alt="">
+        <!-- <img v-if="currentName=='向日葵'" src="" alt="">
+        <img v-if="currentName=='仙人掌'" src="//p8jtbvrrf.bkt.clouddn.com/7172CE35D5D38898A5CC5B21B1EF498B.gif" alt=""> -->
         <!-- <div class="click_change" @click="showFlowerPot">
           <p>点击更换花瓶</p>
         </div> -->
@@ -62,7 +63,8 @@ export default {
     flowerpot_active: 0,
     flowerpotId: null,
     mySwiper: null,
-    showPlant: true
+    showPlant: true,
+    img: ''
   }),
   methods: {
     swiper() {
@@ -72,6 +74,7 @@ export default {
           slideChangeTransitionEnd: function() {
             self.plant_active = this.snapIndex
             self.currentName = self.plantList[this.snapIndex].name
+            self.img = `//p8jtbvrrf.bkt.clouddn.com/${self.plantList[this.snapIndex].primaryImage}`
           }
         }
       })
@@ -106,39 +109,41 @@ export default {
           console.log(r);
           if(r.code===0) {
             self.plantList = r.data
+            setTimeout(()=> {
+              this.swiper()
+            }, 50)
             self.currentName = r.data[0].name
+            self.img = `//p8jtbvrrf.bkt.clouddn.com/${r.data[0].primaryImage}`
             self.plantId = r.data[0].id
           }
         }
       })
     },
-    flowerpot_listFn() {
+    seed_listFn() {
       let self = this
+      let data = {
+        uid: window.localStorage.getItem('uid')
+      }
       this.$ajax({
-        url: path().flowerpot_list,
+        url: path(data).seed,
         type: 'get',
         success: r=> {
           console.log(r);
           if(r.code===0) {
-            self.flowerpot_list = r.data
-            self.flowerpotId = r.data[0].id
-            setTimeout(()=> {
-              this.swiper()
-            }, 50)
+            self.count_seed  = r.data
           }
         }
       })
     },
     submit_Fn() {
-      console.log('dasd');
       let self = this
       let data = {
-        uid: 'huangpu',
-        flowerpotId: this.flowerpotId,
+        uid: window.localStorage.getItem('uid'),
         plantId: this.plantId
       }
       this.$ajax({
         url: path(data).adopt,
+        data: data,
         success: r=> {
           console.log(r);
           if(r.code===0) {
@@ -168,7 +173,7 @@ export default {
   mounted() {
 
     this.plant_listFn()
-    this.flowerpot_listFn()
+    this.seed_listFn()
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <transition name="topOffset">
       <div class="sun_pane" v-if="showEng" :class="{showAnimate: showAnimate}" @click="getEngFn">
         <img :style="{opacity: isUse? '1': '0.7'}" src="//p8jtbvrrf.bkt.clouddn.com/pic_sun.png" alt="">
-        <p>{{isUse? point: left}}</p>
+        <p>{{point}}</p>
       </div>
     </transition>
   </div>
@@ -17,7 +17,7 @@ export default {
     isUse: false,
     left: "--:--",
     showEng: false,
-    showAnimate: false
+    showAnimate: false,
   }),
   props: {
     state: Boolean,
@@ -96,7 +96,7 @@ export default {
         userPlantId: this.userPlantId
       }
       this.$ajax({
-        url: path().harvest,
+        url: path(data).harvest,
         data: data,
         success: r=> {
           if(r.code===0) {

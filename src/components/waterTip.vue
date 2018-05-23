@@ -6,7 +6,7 @@
     </header>
     <div class="desc">
       <slot name='desc'>
-        <p>当前还需灌溉{{desc}}杯水</p>
+        <p>今天还需要喝{{desc}}杯水，继续保持就会成长的更快哦</p>
       </slot>
     </div>
     <div class="">

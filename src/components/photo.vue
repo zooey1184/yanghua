@@ -71,10 +71,15 @@ export default {
     height: 78%;
     .slot_plant {
       position: absolute;
-      width: 35%;
-      height: 35%;
-      left: 35%;
-      bottom: 10%;
+      // width: 35%;
+      // height: 35%;
+      // left: 35%;
+      // bottom: 10%;
+      left: 57%;
+      bottom: 25%;
+      width: 70%;
+      height: 25%;
+      transform: translateX(-50%);
       // background: #ddd;
       img {
         width: 100%
