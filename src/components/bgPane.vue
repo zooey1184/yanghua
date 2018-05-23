@@ -3,6 +3,7 @@
     <img class="bg" v-if="day=='day'" src="//p8jtbvrrf.bkt.clouddn.com/bg_day.png" alt="">
     <img class="bg" v-else src="//p8jtbvrrf.bkt.clouddn.com/bg_night.png" alt="">
     <img class="window" src="//p8jtbvrrf.bkt.clouddn.com/bg_window.png" alt="">
+    <div class="bg zindex"></div>
     <div class="plant_slot">
       <slot></slot>
     </div>
@@ -34,6 +35,9 @@ export default {
     left: 0;
     top: 0;
   }
+  .zindex {
+    z-index: 5;
+  }
   .window {
     position: absolute;
     width: 100%;
@@ -48,6 +52,7 @@ export default {
     width: 70%;
     height: 25%;
     transform: translateX(-50%);
+    z-index: 20;
     bottom: 5%;
     img {
       width: 100%;

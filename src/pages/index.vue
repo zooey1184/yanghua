@@ -10,7 +10,7 @@
           @water="waterTipFn"
           :plantId="pageData.plantId"
           :growStage="pageData.growStage">
-          <img slot="flower" :src="(`${preImg}/${pageData.plantImage}`)" alt="">
+          <img slot="flower" @click.prevent="imgFn" :src="(`${preImg}/${pageData.plantImage}`)" alt="">
         </plant>
         <!-- <plant :water="true" :seed="false" @water="waterTipFn"></plant> -->
       </bg>
@@ -22,13 +22,13 @@
         <p>{{pageData.totalEnergy}}</p>
         <button class="sort_btn">排行</button>
       </div>
-      <img class="camera" @click="cameraFn" src="//p8jtbvrrf.bkt.clouddn.com/icon_camera.png" alt="">
-      <img class="photo" @click="$router.push('/photo')" src="//p8jtbvrrf.bkt.clouddn.com/icon_pic.png" alt="">
+      <img class="camera" @click.prevent="cameraFn" src="//p8jtbvrrf.bkt.clouddn.com/icon_camera.png" alt="">
+      <img class="photo" @click.prevent="$router.push('/photo')" src="//p8jtbvrrf.bkt.clouddn.com/icon_pic.png" alt="">
 
       <transition name='rightOffset'>
         <div class="water_grass" @click="waterFn" v-if="action_water=='enter'">
           <div class="water_glass">
-            <img src="//p8jtbvrrf.bkt.clouddn.com/pic_water.png" alt="">
+            <img @click.prevent="imgFn" src="//p8jtbvrrf.bkt.clouddn.com/pic_water.png" alt="">
           </div>
 
         </div>
@@ -44,7 +44,7 @@
   <modal :showModal="showPhoto" name="toastSlideUp" background="rgba(255, 255, 255, 0.3)">
     <div class="modal_wrap" style="width: 55%; height:46%">
       <photo v-if="pageData" :day="day" :showClose="true" :time="photo.time" @save="savePhoto" @close="showPhoto=false" :title="photo.title">
-        <img :src="(`${preImg}/${pageData.plantImage}`)" alt="">
+        <img @click.prevent="imgFn" :src="(`${preImg}/${pageData.plantImage}`)" alt="">
       </photo>
     </div>
   </modal>
@@ -168,6 +168,7 @@ export default {
       })
     },
     waterTipFn() {
+      let self = this
       self.$toast.show({
         message: '主人我需要喝水啦',
         position: 'middle'
@@ -184,22 +185,24 @@ export default {
         url: path(data).watering,
         success: r=> {
           if(r.code===0) {
+            self.plant_detail()
             self.$toast.show({
               position: 'middle',
               type: 'success',
               message: '灌溉成功！'
             })
-            let v = -r.data.currentTimes/t.data.totalTimes*100
+            let v = r.data.currentTimes/r.data.totalTimes*100
             self.water_desc = r.data.totalTimes-r.data.currentTimes
+
             self.barData = [{
               bg: '#f72f53',
               value: v,
               total: r.data.totalEnergy,
               part: r.data.currentEnergy
             }]
+
             setTimeout(()=> {
               self.showModal = true
-              self.plant_detail()
             }, 20)
             // self.plant_detail()
           }else {
@@ -211,6 +214,9 @@ export default {
     waterClose() {
       this.showModal=false
       // this.plant_detail()
+    },
+    imgFn() {
+      console.log('点击到图片了');
     },
     idChangePlant(id) {
       if(id===10) {
@@ -308,6 +314,7 @@ export default {
   top: 20px;
   left: 20%;
   display: flex;
+  z-index: 15;
 }
 .modal_wrap {
   position: relative;
@@ -333,6 +340,7 @@ export default {
   justify-content: space-between;
   padding: 0 8px;
   font-size: 13px;
+  z-index: 15;
   button {
     .color_linear;
     color: #fff;
@@ -348,12 +356,14 @@ export default {
   width: 40px;
   right: 10px;
   top: 100px;
+  z-index: 15;
 }
 .photo {
   position: absolute;
   width: 42px;
   right: 10px;
   top: 140px;
+  z-index: 15;
 }
 
 .plant_panes {
@@ -378,6 +388,7 @@ export default {
   align-items: center;
   justify-content: center;
   transition: all .5s ease-out;
+  z-index: 15;
   .water_glass {
     width: 50px;
     height: 50px;

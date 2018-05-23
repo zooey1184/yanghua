@@ -4,7 +4,7 @@
     <div>
       <bg></bg>
       <div class="seed_pane">
-        <img src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
+        <img @click.prevent="imgFn" src="//p8jtbvrrf.bkt.clouddn.com/icon_zhongzi.png" alt="">
         <p>{{count_seed}}</p>
       </div>
 
@@ -16,11 +16,11 @@
         </div>
       </div>
       <div class="next_pane">
-        <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" class="rotate_arrow" @click="preFn" v-if="plant_active>0" alt="">
-        <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" @click="nextFn" v-if="plant_active<plantList.length-1" alt="">
+        <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" class="rotate_arrow" @click.prevent="preFn" v-if="plant_active>0" alt="">
+        <img src="//p8jtbvrrf.bkt.clouddn.com/icon_next.png" @click.prevent="nextFn" v-if="plant_active<plantList.length-1" alt="">
       </div>
       <div class="flower_wrap">
-        <img :src="img" alt="">
+        <img @click.prevent="imgFn" :src="img" alt="">
         <!-- <img v-if="currentName=='向日葵'" src="" alt="">
         <img v-if="currentName=='仙人掌'" src="//p8jtbvrrf.bkt.clouddn.com/7172CE35D5D38898A5CC5B21B1EF498B.gif" alt=""> -->
         <!-- <div class="click_change" @click="showFlowerPot">
@@ -134,6 +134,9 @@ export default {
           }
         }
       })
+    },
+    imgFn() {
+      console.log('点击到图片了');
     },
     submit_Fn() {
       let self = this
