@@ -210,10 +210,12 @@ export default {
   border: none;
   outline: none;
   border-radius: 30px;
+  z-index: 20;
 }
 // swiper
 .swiper-container {
   margin-top: 100px;
+  z-index: 20;
 }
 .next_pane {
   position: relative;
@@ -228,6 +230,7 @@ export default {
   justify-content: space-around;
   margin-top: 10px;
   box-shadow: 1px 4px 4px #ddd;
+  z-index: 20;
   &:active {
     opacity: 0.8;
   }

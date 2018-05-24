@@ -124,9 +124,11 @@ export default {
   .flower {
     position: relative;
     width: 80%;
+
     // background: #ddd;
     img {
       width: 100%;
+      z-index: 20;
     }
     .tip {
       position: absolute;

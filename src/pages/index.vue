@@ -10,7 +10,7 @@
           @water="waterTipFn"
           :plantId="pageData.plantId"
           :growStage="pageData.growStage">
-          <img slot="flower" @click.prevent="imgFn" :src="(`${preImg}/${pageData.plantImage}`)" alt="">
+          <img slot="flower" @click.prevent="touchImg" :src="(`${preImg}/${img}`)" alt="">
         </plant>
         <!-- <plant :water="true" :seed="false" @water="waterTipFn"></plant> -->
       </bg>
@@ -38,7 +38,7 @@
   </page>
 
   <modal :showModal="showModal">
-    <div class="modal_wrap">
+    <div class="water_wrap">
       <water-tip :title="currentName" :desc="water_desc" :barData="barData" @iclose="waterClose"></water-tip>
     </div>
   </modal>
@@ -70,13 +70,14 @@ export default {
     waterTip: ()=> import ('@/components/waterTip.vue'),
     photo: ()=> import ('@/components/photo.vue'),
     plant: ()=> import ('@/components/plant.vue'),
-    award: ()=> import ('@/components/award.vue')
+    award: ()=> import ('@/components/award.vue'),
   },
   data: ()=> ({
     showModal: false,
     showPhoto: false,
     showAward: false,
     preImg: '//p8jtbvrrf.bkt.clouddn.com',
+    img: '',
     day: 'day',
     pageState: 'loading',
     photo: {
@@ -115,15 +116,15 @@ export default {
     userUpdate() {
       console.log(this.$route.query);
       let r = this.$route.query
-      if(r.userId || r.zooey=='z') {
+      if(r.uid || r.zooey=='z') {
         let data = {
-          userId: r.userId,
+          uid: r.uid,
           nickname: r.nickname,
           avatar: r.avatar
         }
         if(r.zooey=='z') {
           data = {
-            userId: "huangpu",
+            uid: "huangpu",
             nickname: "huangpu",
             avatar: "//oo6gk8wuu.bkt.clouddn.com/normal.png"
           }
@@ -164,8 +165,10 @@ export default {
               self.idChangePlant(r.data.plantId)
               if(r.data.needWater===0) {
                 self.needWater = false
+                self.img = r.data.plantImage
               }else {
                 self.needWater = true
+                self.img = r.data.plantTouchImage
               }
               if(r.data.finished===0) {
                 self.finished = false
@@ -232,6 +235,15 @@ export default {
     },
     imgFn() {
       console.log('点击到图片了');
+    },
+    touchImg() {
+      console.log('hello');
+      if(!this.needWater) {
+        this.img = this.pageData.plantTouchImage
+        setTimeout(()=> {
+          this.img = this.pageData.plantImage
+        }, 1500)
+      }
     },
     idChangePlant(id) {
       if(id===10) {
@@ -309,8 +321,8 @@ export default {
   created() {
     let self = this
     let r = this.$route.query
-    if(r.userId) {
-      window.localStorage.setItem('uid', r.userId)
+    if(r.uid) {
+      window.localStorage.setItem('uid', r.uid)
     }
 
     this.getDay()
@@ -340,6 +352,15 @@ export default {
   position: relative;
   width: 80%;
   background: #fff;
+}
+.water_wrap {
+  position: relative;
+  width: 80%;
+}
+.water_modal {
+  position: relative;
+  width: 80%;
+  // background: #fff;
 }
 .award_modal {
   padding: 10px;
