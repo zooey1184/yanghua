@@ -38,7 +38,7 @@
   </page>
 
   <modal :showModal="showModal">
-    <div class="water_wrap">
+    <div class="water_modal">
       <water-tip :title="currentName" :desc="water_desc" :barData="barData" @iclose="waterClose"></water-tip>
     </div>
   </modal>
@@ -117,6 +117,7 @@ export default {
       console.log(this.$route.query);
       let r = this.$route.query
       if(r.uid || r.zooey=='z') {
+        window.localStorage.setItem('uid', r.uid)
         let data = {
           uid: r.uid,
           nickname: r.nickname,
@@ -148,8 +149,9 @@ export default {
     },
     // 植物详情
     plant_detail() {
+      let r = this.$route.query
       let data = {
-        uid: 'huangpu'
+        uid: r.uid || window.localStorage.getItem('uid')
       }
       let self = this
       this.$ajax({
@@ -159,7 +161,7 @@ export default {
           if(r.code===0) {
             if(r.data) {
               self.pageData = r.data
-              window.localStorage.setItem('uid', r.data.uid)
+              // window.localStorage.setItem('uid', r.data.uid)
               window.localStorage.setItem('userPlantId', r.data.userPlantId)
 
               self.idChangePlant(r.data.plantId)
@@ -352,10 +354,6 @@ export default {
   position: relative;
   width: 80%;
   background: #fff;
-}
-.water_wrap {
-  position: relative;
-  width: 80%;
 }
 .water_modal {
   position: relative;
