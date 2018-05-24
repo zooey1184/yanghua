@@ -214,7 +214,7 @@ export default {
             self.water_desc = r.data.totalTimes-r.data.currentTimes
 
             self.barData = [{
-              bg: '#f72f53',
+              bg: '#ffac33',
               value: v,
               total: r.data.totalEnergy,
               part: r.data.currentEnergy
@@ -357,8 +357,7 @@ export default {
 }
 .water_modal {
   position: relative;
-  width: 80%;
-  // background: #fff;
+  width: 90%;
 }
 .award_modal {
   padding: 10px;

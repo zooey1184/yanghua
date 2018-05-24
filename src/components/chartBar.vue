@@ -53,12 +53,12 @@ export default {
 <style lang="less">
 .chart_bar_wrap_hor {
   position: relative;
-  padding: 10px 0;
-  padding-bottom: 5px;
+  // padding: 10px 0;
+  // padding-bottom: 5px;
   width: 100%;
   left: 0;
   .chart_item_bar_hor {
-    margin: 10px 0;
+    // margin: 10px 0;
     .chart_item_bar_horize {
       display: flex;
       align-items: center;
@@ -77,7 +77,7 @@ export default {
       background: #f8f8f8;
       position: relative;
       left: 0;
-      margin: 3px 0 15px 0;
+      margin: 3px 0 5px 0;
       .hor_item_chart_contain {
         position: absolute;
         left: 0;
@@ -91,7 +91,7 @@ export default {
         width: 100%;
         text-align: center;
         font-size: 12px;
-        color: #333;
+        color: #888;
         margin: 1px 0;
       }
     }

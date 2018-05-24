@@ -9,7 +9,7 @@
         <p>今天还需要喝{{desc}}杯水，继续保持就会成长的更快哦</p>
       </slot>
     </div>
-    <div class="">
+    <div style="margin-top: 24px">
       <chart-bar :barData="barData" :showBar="true"></chart-bar>
     </div>
     <img class="modal_close_water" @click="closeModal" src="//p8jtbvrrf.bkt.clouddn.com/icon_close.png" alt="">
@@ -56,7 +56,7 @@ export default {
   width: 80%;
   display: block;
   margin: 0 auto;
-  height: 140px;
+  // height: 140px;
   box-sizing: border-box;
   border-radius: 5px;
   background: #fff;
@@ -72,8 +72,12 @@ export default {
   }
   .desc {
     margin: 10px 0;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 15px;
+    color: #888;
+    p {
+      line-height: 20px;
+    }
   }
   .modal_close_water {
     width: 30px;
