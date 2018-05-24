@@ -47,8 +47,8 @@ export default {
       })
     },
     cameraFn(t) {
-      let f = timeFormate(t)
-      let d = f.formate()
+      let f = timeFormate()
+      let d = f.formate(t)
       let w = f.week()
       return {
         day: d,
