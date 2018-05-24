@@ -73,12 +73,17 @@ export default {
     },
     avatarFn(img) {
       let a = true
-      if(!img.match(/(jpg|jpeg|png|gif)/g)) {
+      try {
+        if(!img.match(/(jpg|jpeg|png|gif)/g)) {
+          a = false
+        }else {
+          a = true
+        }
+      } catch (e) {
         a = false
-      }else {
-        a = true
+      } finally {
+        return a
       }
-      return a
     }
   },
   created() {
