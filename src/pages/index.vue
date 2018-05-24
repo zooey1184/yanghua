@@ -38,7 +38,7 @@
   </page>
 
   <modal :showModal="showModal">
-    <div class="modal_wrap">
+    <div class="water_modal">
       <water-tip :title="currentName" :desc="water_desc" :barData="barData" @iclose="waterClose"></water-tip>
     </div>
   </modal>
@@ -340,6 +340,11 @@ export default {
   position: relative;
   width: 80%;
   background: #fff;
+}
+.water_modal {
+  position: relative;
+  width: 80%;
+  // background: #fff;
 }
 .award_modal {
   padding: 10px;
