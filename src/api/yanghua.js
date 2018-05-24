@@ -25,7 +25,8 @@ export function sign(data={}) {
   let e = d.toUpperCase()
   let f = encodeURI(e)
   let sign = md.hex_md5(f)
-  let finial = `${g}&sign=${sign}`
+  // let finial = `${g}&sign=${sign}`
+  let finial = g
   return finial
 }
 

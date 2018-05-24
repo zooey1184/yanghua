@@ -115,15 +115,16 @@ export default {
     userUpdate() {
       console.log(this.$route.query);
       let r = this.$route.query
-      if(r.userId || r.zooey=='z') {
+      if(r.uid || r.zooey=='z') {
+        window.localStorage.setItem('uid', r.uid)
         let data = {
-          userId: r.userId,
+          uid: r.uid,
           nickname: r.nickname,
           avatar: r.avatar
         }
         if(r.zooey=='z') {
           data = {
-            userId: "huangpu",
+            uid: "huangpu",
             nickname: "huangpu",
             avatar: "//oo6gk8wuu.bkt.clouddn.com/normal.png"
           }
@@ -147,8 +148,9 @@ export default {
     },
     // 植物详情
     plant_detail() {
+      let r = this.$route.query
       let data = {
-        uid: 'huangpu'
+        uid: r.uid || window.localStorage.getItem('uid')
       }
       let self = this
       this.$ajax({
@@ -158,7 +160,7 @@ export default {
           if(r.code===0) {
             if(r.data) {
               self.pageData = r.data
-              window.localStorage.setItem('uid', r.data.uid)
+              // window.localStorage.setItem('uid', r.data.uid)
               window.localStorage.setItem('userPlantId', r.data.userPlantId)
 
               self.idChangePlant(r.data.plantId)
@@ -309,8 +311,8 @@ export default {
   created() {
     let self = this
     let r = this.$route.query
-    if(r.userId) {
-      window.localStorage.setItem('uid', r.userId)
+    if(r.uid) {
+      window.localStorage.setItem('uid', r.uid)
     }
 
     this.getDay()
