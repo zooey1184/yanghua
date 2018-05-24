@@ -170,7 +170,7 @@ export default {
                 self.img = r.data.plantImage
               }else {
                 self.needWater = true
-                self.img = r.data.plantTouchImage
+                self.img = r.data.plantCryImage
               }
               if(r.data.finished===0) {
                 self.finished = false
