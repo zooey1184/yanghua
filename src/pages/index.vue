@@ -31,7 +31,6 @@
           <div class="water_glass">
             <img @click.prevent="waterFn" src="//p8jtbvrrf.bkt.clouddn.com/pic_water.png" alt="">
           </div>
-
         </div>
       </transition>
     </div>
@@ -52,7 +51,7 @@
 
   <modal :showModal="showAward" background="rgba(255, 255, 255, 0.3)">
     <div class="modal_wrap award_modal" style="width: 80%;">
-      <award :sort="1" @callback="showAward=false" @confirm="showAward=false"></award>
+      <award :sort="awardAct" @callback="showAward=false" @confirm="showAward=false"></award>
     </div>
   </modal>
 </div>
@@ -92,7 +91,8 @@ export default {
     energy: null,
     currentName: '',
     barData: [],
-    water_desc: null
+    water_desc: null,
+    awardAct: 4,
   }),
   methods: {
     // 获取昼夜
@@ -309,11 +309,12 @@ export default {
         success: r=> {
           if(r.code===0) {
             if(r.data>0) {
+              self.awardAct = r.data
               setTimeout(()=> {
                 self.showAward = true
               }, 600)
             }else {
-              self.showAward = false
+              // self.showAward = false
             }
           }
         }
@@ -368,39 +369,48 @@ export default {
   position: absolute;
   right: 0;
   top: 60px;
-  width: 80px;
+  width: 135px;
   background: #fff;
   border-radius: 30px;
-  height: 30px;
+  height: 38px;
   color: #333;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 8px;
+  padding-left: 18px;
+  box-sizing: border-box;
   font-size: 13px;
   z-index: 15;
+  color: #ffa620;
+  p {
+    font-weight: 600;
+    font-size: 18px;
+  }
   button {
     .color_linear;
     color: #fff;
     border: none;
     border-radius: 20px;
-    width: 40px;
+    width: 60px;
     outline: none;
     padding: 5px;
+    height: 30px;
+    font-size: 14px;
   }
 }
 .camera {
   position: absolute;
-  width: 40px;
+  width: 44px;
   right: 10px;
-  top: 100px;
+  top: 120px;
   z-index: 15;
 }
 .photo {
   position: absolute;
-  width: 42px;
+  width: 45px;
   right: 10px;
-  top: 140px;
+  top: 175px;
   z-index: 15;
 }
 
@@ -416,11 +426,11 @@ export default {
 }
 .water_grass {
   position: absolute;
-  right: 20px;
-  bottom: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
+  right: 36px;
+  bottom: 36px;
+  width: 80px;
+  height: 80px;
+  border-radius: 60px;
   background-color: #eee;
   display: flex;
   align-items: center;
@@ -428,16 +438,16 @@ export default {
   transition: all .5s ease-out;
   z-index: 20;
   .water_glass {
-    width: 50px;
-    height: 50px;
-    background: #9cd5ff;
-    border-radius: 30px;
+    width: 68px;
+    height: 68px;
+    background: rgba(156, 213, 255, 0.70);
+    border-radius: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   img {
-    width: 60%;
+    width: 50%;
     display: block;
     margin: 0 auto;
   }

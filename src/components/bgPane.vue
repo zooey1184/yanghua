@@ -49,7 +49,7 @@ export default {
     position: absolute;
     left: 57%;
     bottom: 10%;
-    width: 70%;
+    width: 90%;
     height: 25%;
     transform: translateX(-50%);
     z-index: 20;

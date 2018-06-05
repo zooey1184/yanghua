@@ -13,7 +13,7 @@
           </div>
           <div class="header">
             <slot>
-              <img style="width: 80%; height: 80%; position: relative; left: 10%; top: 10%" src="//ow9z7qnv9.bkt.clouddn.com/user.png" alt="">
+              <img style="width: 80%; height: 80%; position: relative; left: 10%; top: 10%" src="//oo6gk8wuu.bkt.clouddn.com/default_head.png" alt="">
             </slot>
           </div>
           <p>{{title}}</p>
@@ -156,12 +156,12 @@ export default {
   display: flex;
   align-items: center;
   .header {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 30px;
     overflow: hidden;
     margin-right: 15px;
-    background: #ddd;
+    // background: #ddd;
     img {
       width: 100%;
       height: 100%;
